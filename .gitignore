@@ -1,0 +1,7 @@
+.env
+build/
+dist/
+connect_client.egg-info/
+*.pyc
+*.swp
+*.egg

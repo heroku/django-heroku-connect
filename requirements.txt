@@ -1,0 +1,5 @@
+Django==1.6
+dj-database-url==0.3.0
+factory-boy==2.3.1
+shams==0.0.2
+wsgiref==0.1.2

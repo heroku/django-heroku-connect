@@ -1,0 +1,22 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_urls %}
+{% block content %}
+<div id="content-main">
+    <form method="post" action=".">
+        {% csrf_token %}
+        <label for="id_num">Number to create:</label>
+        <input id="id_num" type="text" name="num" value="10">
+        <input type="submit" value="Create">
+    </form>
+</div>
+{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+  <a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+  &rsaquo;
+  <a href="{% url opts|admin_urlname:'changelist' %}">
+      {{ opts.verbose_name_plural|capfirst }}
+  </a>
+</div>
+{% endblock %}

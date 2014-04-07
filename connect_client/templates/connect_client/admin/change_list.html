@@ -1,0 +1,10 @@
+{% extends "admin/change_list.html" %}
+{% load i18n admin_urls %}
+{% block object-tools-items %}
+<li>
+    <a href="{% url opts|admin_urlname:'generate_new' %}" class="addlink">
+      {% trans "Generate new" %}
+    </a>
+</li>
+{{ block.super }}
+{% endblock %}

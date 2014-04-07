@@ -23,20 +23,21 @@ class SalesforceBase(models.Model):
     sfid = SalesforceReferenceField()
     is_deleted = models.NullBooleanField(db_column='isdeleted')
     system_mod_stamp = models.DateTimeField(db_column='systemmodstamp',
-        null=True)
+        null=True, blank=True)
 
     # Timestamps & related references
     created_by_id = SalesforceReferenceField(db_column='createdbyid')
-    created_date = models.DateTimeField(db_column='createddate', null=True)
+    created_date = models.DateTimeField(db_column='createddate', null=True,
+        blank=True)
     last_modified_by_id = SalesforceReferenceField(db_column='lastmodifiedbyid')
     last_modified_date = models.DateTimeField(db_column='lastmodifieddate',
-        null=True)
+        null=True, blank=True)
     last_activity_date = models.DateField(db_column='lastactivitydate',
-        null=True)
+        null=True, blank=True)
     last_referenced_date = models.DateTimeField(db_column='lastreferenceddate',
-        null=True)
+        null=True, blank=True)
     last_viewed_date = models.DateTimeField(db_column='lastvieweddate',
-        null=True)
+        null=True, blank=True)
 
     # Other references
     master_record_id = SalesforceReferenceField(db_column='masterrecordid')
@@ -79,8 +80,8 @@ def add_address_fields(model_class, prefixes):
             'null': True,
             'blank': True,
         }),
-        ('latitude', models.FloatField, {'null': True}),
-        ('longitude', models.FloatField, {'null': True}),
+        ('latitude', models.FloatField, {'null': True, 'blank': True}),
+        ('longitude', models.FloatField, {'null': True, 'blank': True}),
     )
 
     for prefix in prefixes:
@@ -95,10 +96,13 @@ class Account(SalesforceBase):
     class Meta:
         db_table = '"{0}"."account"'.format(settings.HEROKU_CONNECT_SCHEMA)
 
+    def __unicode__(self):
+        return 'Account: {0}'.format(self.name)
+
     salesforce_object_name = 'Account'
 
     # References
-    parent_id = SalesforceReferenceField(db_column='parentid', null=True)
+    parent_id = SalesforceReferenceField(db_column='parentid')
     jigsaw_company_id = models.CharField(db_column='jigsawcompanyid',
         max_length=20, null=True, blank=True)
 
@@ -106,12 +110,12 @@ class Account(SalesforceBase):
     name = models.CharField(max_length=255, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     account_type = models.CharField(db_column='type', max_length=40, null=True,
-            blank=True)
+        blank=True)
     account_number = models.CharField(db_column='accountnumber', max_length=40,
         null=True, blank=True)
     industry = models.CharField(max_length=40, null=True, blank=True)
     number_of_employees = models.IntegerField(db_column='numberofemployees',
-        null=True)
+        null=True, blank=True)
     phone = models.CharField(max_length=40, null=True, blank=True)
     website = models.CharField(max_length=255, null=True, blank=True)
 add_address_fields(Account, ('shipping', 'billing'))
@@ -119,6 +123,9 @@ add_address_fields(Account, ('shipping', 'billing'))
 class Contact(SalesforceBase):
     class Meta:
         db_table = '"{0}"."contact"'.format(settings.HEROKU_CONNECT_SCHEMA)
+
+    def __unicode__(self):
+        return 'Contact: {0}'.foramt(self.name)
 
     salesforce_object_name = 'Contact'
 
@@ -134,7 +141,7 @@ class Contact(SalesforceBase):
     salutation = models.CharField(max_length=40, null=True, blank=True)
     title = models.CharField(max_length=128, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
-    birthdate = models.DateField(null=True)
+    birthdate = models.DateField(null=True, blank=True)
     department = models.CharField(max_length=80, null=True, blank=True)
 
     assistant_name = models.CharField(db_column='assistantname', max_length=40,
@@ -145,14 +152,14 @@ class Contact(SalesforceBase):
     lead_source = models.CharField(db_column='leadsource', max_length=40,
         null=True, blank=True)
     last_cu_update_date = models.DateTimeField(db_column='lastcuupdatedate',
-        null=True)
+        null=True, blank=True)
     last_cu_request_date = models.DateTimeField(db_column='lastcurequestdate',
-        null=True)
+        null=True, blank=True)
 
     # Email
     email = models.CharField(max_length=80, null=True, blank=True)
     email_bounced_date = models.DateTimeField(db_column='emailbounceddate',
-        null=True)
+        null=True, blank=True)
     email_bounced_reason = models.CharField(db_column='emailbouncedreason',
         max_length=255, null=True, blank=True)
     is_email_bounced = models.NullBooleanField(db_column='isemailbounced')

@@ -16,6 +16,7 @@ if sys.argv[-1] == 'publish':
 
 packages = [
     'connect_client',
+    'connect_client.tests',
 ]
 
 requires = [

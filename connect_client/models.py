@@ -43,6 +43,20 @@ class SalesforceBase(models.Model):
     master_record_id = SalesforceReferenceField(db_column='masterrecordid')
     owner_id = SalesforceReferenceField(db_column='ownerid')
 
+    def save(self, *args, **kwargs):
+        # Change all empty strings to None for nullable fields
+        def is_empty_string_and_nullable(field):
+            return all((
+                isinstance(field, models.CharField),
+                field.null,
+                getattr(self, field.attname) == '',
+            ))
+        for field in filter(is_empty_string_and_nullable, self._meta.fields):
+            setattr(self, field.attname, None)
+
+        return super(SalesforceBase, self).save(*args, **kwargs)
+
+
 def add_address_fields(model_class, prefixes):
     fields = (
         ('street', models.CharField, {

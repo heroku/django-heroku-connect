@@ -74,11 +74,6 @@ def add_address_fields(model_class, prefixes):
             'null': True,
             'blank': True,
         }),
-        ('state_code', models.CharField, {
-            'max_length': 10,
-            'null': True,
-            'blank': True,
-        }),
         ('postal_code', models.CharField, {
             'max_length': 20,
             'null': True,
@@ -86,11 +81,6 @@ def add_address_fields(model_class, prefixes):
         }),
         ('country', models.CharField, {
             'max_length': 80,
-            'null': True,
-            'blank': True,
-        }),
-        ('country_code', models.CharField, {
-            'max_length': 10,
             'null': True,
             'blank': True,
         }),
